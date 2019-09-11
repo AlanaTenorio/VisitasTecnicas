@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Cadastrar Servidor</title>
+    </h:head>
+    <h:body>
+        <h:form id="formCadastroPrimeiroServidor">
+            <p:growl id="growl" sticky="false" life="3000"/>
+            <center> 
+                
+                <p:panel header="Cadastrar Servidor">
+                    
+                    <p:panelGrid columns="2" styleClass="grid">
+
+                        <h:outputText value="*Nome: " style="color: red"/>
+                        <p:inputText id="nome" value="#{servidor.nome}" required="true" requiredMessage="Digite o nome!"/>
+                        
+                        <h:outputText value="*SIAPE: " style="color: red"/>
+                        <p:inputText id="siape" value="#{servidor.siape}" required="true" requiredMessage="Digite o SIAPE"/>
+                        
+                        <h:outputText value="*Senha: " style="color: red"/>
+                        <p:password id="senha" value="#{servidor.senha}" required="true" requiredMessage="Digite a senha!"/>
+                        
+                        <h:outputText value="* Perfil: " style="color: red" rendered=""/>
+                        <p:selectOneMenu value="#{servidor.perfil}" panelStyle="width:150px" filterMatchMode="startsWith">  
+                            <f:selectItem itemLabel="Administrador" itemValue="Administrador"/>
+                        </p:selectOneMenu>
+
+                    </p:panelGrid>
+
+                    <p:separator/>
+
+                    <p:commandButton value="Cadastrar" action="#{controleServidor.inserirPrimeiroServidor(servidor)}" ajax="false" update=":formCadastroPrimeiroServidor"/>
+                    <p:commandButton value="Cancelar" oncomplete="location.href='/ControleVisitaTec/faces/login.xhtml'" update=":formCadastroPrimeiroServidor"/>
+
+                </p:panel>
+            
+            </center>
+        </h:form>
+    </h:body>
+</html>
+

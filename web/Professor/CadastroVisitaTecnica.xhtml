@@ -1,0 +1,246 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <h:head>
+        <title>Cadastro Visita Tecnica</title>
+    </h:head>
+    <style type="text/css">  
+        .ui-datalist-content{  
+            border: 0px;   
+        }
+    </style>
+    <h:body>
+        <ui:include src="/indexProfessor.xhtml"/>
+        <h:form id="formCadastroVisitaTec">
+
+            <c:if test="${controleLogin.loggedIn == false}">
+                <script>
+                    location.href = '/ControleVisitaTec/faces/login.xhtml';
+                </script>
+            </c:if>
+            <c:if test="${controleLogin.administrador == true}">
+                <script>
+                    location.href = '/ControleVisitaTec/faces/index.xhtml';
+                </script>
+            </c:if>
+
+            <center>
+
+                <p:growl id="growl" sticky="true" showDetail="true"/>
+
+                <br/>
+                <p:wizard flowListener="#{userWizard.onFlowProcess}" showStepStatus="true" backLabel="Voltar" nextLabel="Próximo" widgetVar="wiz">
+                    <p:tab id="dados" title="Dados" >
+                        <p:panel header="Dados da visita">
+                            <p:messages />
+                            <p:panelGrid columns="2" styleClass="grid" >
+
+                                <p:outputLabel value="*Data de saída:" style="color: red"/>
+                                <p:inputMask mask="99/99/9999" value="#{userWizard.user.dataSaida}" size="9" converterMessage="Data inválida!" required="true" requiredMessage="Digite a data de saída">
+                                    <f:convertDateTime pattern="dd/MM/yyyy" locale="pt_BR" timeZone="GMT-3:00"/>
+                                </p:inputMask>
+
+                                <h:outputText value="*Hora de saída: " style="color: red"/>
+                                <p:inputMask mask="99:99" id="horaSaida" converterMessage="Hora inválida!" value="#{userWizard.user.horaSaida}" required="true" requiredMessage="Digite a hora de saída"/>
+
+                                <p:outputLabel value="*Data de chegada:" style="color: red"/>
+                                <p:inputMask mask="99/99/9999" value="#{userWizard.user.dataChegada}" size="9" converterMessage="Data inválida!" required="true" requiredMessage="Digite a data de chegada">
+                                    <f:convertDateTime pattern="dd/MM/yyyy" locale="pt_BR" timeZone="GMT-3:00"/>
+                                </p:inputMask>
+
+                                <h:outputText value="*Hora de chegada: " style="color: red"/>
+                                <p:inputMask mask="99:99" id="horaChegada" converterMessage="Data inválida!" value="#{userWizard.user.horaChegada}" required="true" requiredMessage="Digite a hora de chegada"/>
+
+                                <h:outputText value="*Local: " style="color: red"/>
+                                <p:inputText id="local" value="#{userWizard.user.localVisita}" required="true" requiredMessage="Digite o local da visita"/>
+
+                                <h:outputText value="*Duração da visita: (Em horas)" style="color: red"/>
+                                <p:inputText id="duracao" value="#{userWizard.user.duracao}" required="true" requiredMessage="Digite a duração da visita" />
+
+                                <h:outputText value="*Custo da visita: " style="color: red"/>
+                                <p:inputText id="custo" value="#{userWizard.user.custo}" required="true" requiredMessage="Digite o custo da visita"/>
+
+                                <h:outputText value="*Quantidade de estudantes: " style="color: red"/>
+                                <p:inputText id="quantEstudantes" value="#{userWizard.user.quantEstudantes}" required="true" requiredMessage="Digite a quantidade de estudantes"/>
+
+                                <h:outputText value="Publico alvo: "/>
+                                <p:inputText style="width: 200%" id="publico" value="#{userWizard.user.publicoAlvo}"/>
+
+                                <h:outputText value="Objetivos da visita: "/>
+                                <p:inputTextarea style="width: 200%" id="objetivos" value="#{userWizard.user.objetivos}" />
+
+                                <h:outputText value="Justificativa: "/>
+                                <p:inputTextarea style="width: 200%" id="justificativa" value="#{userWizard.user.justificativa}" />
+
+                                <h:outputText value="Componentes curriculares envolvidos: "/>
+                                <p:inputTextarea style="width: 200%" id="comp" value="#{userWizard.user.compCurriculares}" />
+
+                                <h:outputText value="Informações adicionais: "/>
+                                <p:inputTextarea style="width: 200%" id="informacoes" value="#{userWizard.user.informacoes}" />
+
+                                <h:outputText value="Requisitos: "/>
+                                <p:inputTextarea style="width: 200%" id="requisitos" value="#{userWizard.user.requisitos}" />
+
+                                <h:outputText value="Referências Bibliográficas: "/>
+                                <p:inputTextarea style="width: 200%" id="referencias" value="#{userWizard.user.referencia}" />
+
+                            </p:panelGrid>
+                        </p:panel>
+                    </p:tab>
+
+                    <p:tab id="servidores" title="Servidores">
+                        <p:panel header="Servidores Participantes">
+                            <p:messages />
+                            <p:dataTable id="checkboxServidores" var="servidores" paginator="true" rows="15" value="#{controleServidor.recuperarTodosServidoresAtivos()}" 
+                                         selection="#{userWizard.user.servidores}" rowKey="#{servidores.siape}" 
+                                         style="margin-bottom:0" emptyMessage="Náo há servidores cadastrados.">
+                                <p:column selectionMode="multiple" style="width:2%;text-align:center"/>
+                                <p:column filterBy="#{servidores.siape}" filterMatchMode="contains" headerText="Siape" width="20%">
+                                    <h:outputText value="#{servidores.siape}" />
+                                </p:column>
+                                <p:column filterBy="#{servidores.nome}" filterMatchMode="contains" headerText="Nome" width="45%">
+                                    <h:outputText value="#{servidores.nome}" />
+                                </p:column>
+                            </p:dataTable>
+
+                        </p:panel>
+                    </p:tab>
+
+                    <p:tab id="estudantes" title="Estudantes">
+                        <p:panel header="Estudantes Participantes">
+                            <p:messages />
+                            <p:dataTable id="checkboxEstudantes" var="estudantes" paginator="true" rows="15" value="#{controleEstudante.recuperarTodosEstudantesAtivos()}" 
+                                         selection="#{userWizard.user.estudantes}" rowKey="#{estudantes.id}" 
+                                         style="margin-bottom:0" emptyMessage="Náo há estudantes cadastrados.">
+                                <p:column selectionMode="multiple" style="width:2%;text-align:center"/>
+                                <p:column filterBy="#{estudantes.cpf}" filterMatchMode="contains" headerText="CPF" width="20%">
+                                    <h:outputText value="#{estudantes.cpf}" />
+                                </p:column>
+                                <p:column filterBy="#{estudantes.nome}" filterMatchMode="contains" headerText="Nome" width="45%">
+                                    <h:outputText value="#{estudantes.nome}" />
+                                </p:column>
+                            </p:dataTable>
+                            <p:commandLink value="Adicionar novo estudante" update=":formCadastroVisitaTec" oncomplete="dialogo2.show()"/>
+                        </p:panel>
+                    </p:tab>
+
+                    <p:tab id="confirm" title="Confirmação">
+                        <p:panel header="Confirmação">
+                            <p:panelGrid columns="2" styleClass="grid">
+                                <h:outputText value="Data de Saída: "/>
+                                <h:outputText value="#{userWizard.user.dataSaida}" >
+                                    <f:convertDateTime pattern="dd/MM/yyyy" locale="pt_BR" timeZone="GMT-3:00"/>
+                                </h:outputText>
+
+                                <h:outputText value="Hora de Saída: "/>
+                                <h:outputText value="#{userWizard.user.horaSaida}" />
+
+                                <h:outputText value="Data de Chegada: "/>
+                                <h:outputText value="#{userWizard.user.dataChegada}" >
+                                    <f:convertDateTime pattern="dd/MM/yyyy" locale="pt_BR" timeZone="GMT-3:00"/>
+                                </h:outputText>
+
+                                <h:outputText value="Hora de Chegada: "/>
+                                <h:outputText value="#{userWizard.user.horaChegada}" />
+
+                                <h:outputText value="Local: "/>
+                                <h:outputText value="#{userWizard.user.localVisita}" />
+
+                                <h:outputText value="Duração da visita: (Em horas)"/>
+                                <h:outputText value="#{userWizard.user.duracao}" />
+
+                                <h:outputText value="Custo da visita: "/>
+                                <h:outputText value="#{userWizard.user.custo}" />
+
+                                <h:outputText value="Quantidade de estudantes: "/>
+                                <h:outputText  value="#{userWizard.user.quantEstudantes}" />
+
+                                <h:outputText value="Publico alvo: "/>
+                                <h:outputText value="#{userWizard.user.publicoAlvo}" />
+
+                                <h:outputText value="Objetivos da visita: "/>
+                                <h:outputText value="#{userWizard.user.objetivos}" />
+
+                                <h:outputText value="Justificativa: "/>
+                                <h:outputText value="#{userWizard.user.justificativa}" />
+
+                                <h:outputText value="Componentes curriculares envolvidos: "/>
+                                <h:outputText value="#{userWizard.user.compCurriculares}" />
+
+                                <h:outputText value="Informações adicionais: "/>
+                                <h:outputText value="#{userWizard.user.informacoes}" />
+
+                                <h:outputText value="Requisitos: "/>
+                                <h:outputText value="#{userWizard.user.requisitos}" />
+
+                                <h:outputText value="Referências Bibliográficas: "/>
+                                <h:outputText value="#{userWizard.user.referencia}" />
+
+                                <h:outputText value="Servidores: "/>
+                                <p:dataList value="#{userWizard.user.servidores}" var="servidores" type="definition">
+                                    #{servidores.nome}
+                                </p:dataList>
+
+                                <h:outputText value="Estudantes: "/>
+                                <p:dataList value="#{userWizard.user.estudantes}" var="estudantes" type="definition">
+                                    #{estudantes.nome}
+                                </p:dataList>
+
+                            </p:panelGrid>
+                            <p:commandButton value="Confirmar" action="#{userWizard.save(userWizard.user)}" update="growl" process="@this"/>
+                        </p:panel>
+                    </p:tab>
+                </p:wizard>
+
+                <p:dialog id="dial2"  appendToBody="true" closable="true" resizable="false" modal="true" widgetVar="dialogo2">
+
+
+                    <p:panel header="Cadastrar Estudante">
+
+                        <p:panelGrid columns="2" styleClass="grid">
+
+                            <h:outputText value="*Nome: " style="color: red"/>
+                            <p:inputText id="nomeEstudante" value="#{estudante.nome}" />
+
+                            <h:outputText value="*CPF: " style="color: red"/>
+                            <p:inputMask mask="999.999.999-99" id="cpf" value="#{estudante.cpf}" />
+
+                            <h:outputText value="*Data de nascimento: " style="color: red"/>
+                            <p:inputMask mask="99/99/9999" value="#{estudante.dataNascimento}" size="9" converterMessage="Data inválida!" >
+                                <f:convertDateTime pattern="dd/MM/yyyy" locale="pt_BR" timeZone="GMT-3:00"/>
+                            </p:inputMask>
+
+                            <h:outputText value="Banco: "/>
+                            <p:selectOneMenu id="select1" value="#{estudante.banco}" converter="converterEntity" filter="true" panelStyle="width:150px" >  
+                                <f:selectItem itemLabel="Selecione" itemValue="" />  
+                                <f:selectItems value="#{controleBanco.recuperarTodosBancosAtivos()}" var="bancos" itemLabel="#{bancos.nome}" itemValue="#{bancos}" />  
+                            </p:selectOneMenu>
+
+                            <h:outputText value="Número da conta: " />
+                            <p:inputText id="numeroConta" value="#{estudante.conta}" />
+
+                            <h:outputText value="Agência: " />
+                            <p:inputText id="agencia" value="#{estudante.agencia}" />
+
+                            <h:outputText value="Observação: " />
+                            <p:inputTextarea id="observacao" value="#{estudante.observacao}" />
+
+                        </p:panelGrid>
+
+                        <p:separator/>
+
+                        <p:commandButton value="Cadastrar"  action="#{controleEstudante.inserirEstudantePopUp(estudante)}" oncomplete="dialogo1.close()" update=":formCadastroVisitaTec"/>
+
+                    </p:panel>
+
+                </p:dialog>
+            </center>
+        </h:form>
+    </h:body>
+</html>
+

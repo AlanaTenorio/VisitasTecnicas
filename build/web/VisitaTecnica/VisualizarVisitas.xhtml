@@ -1,0 +1,201 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <h:head>
+        <title>Visualizar Visitas</title>
+    </h:head>
+    <h:body>
+        <ui:include src="/index.xhtml"/>
+        <h:form id="formVisualizarVisitas">
+            <c:if test="${controleLogin.loggedIn == false}">
+                <script>
+                    location.href = '/ControleVisitaTec/faces/login.xhtml';
+                </script>
+            </c:if>
+            <c:if test="${controleLogin.professor == true}">
+                <script>
+                    location.href = '/ControleVisitaTec/faces/indexProfessor.xhtml';
+                </script>
+            </c:if>
+            
+            <center>
+                <p:panel header="Visualizar Visitas">
+
+                    <p:dataTable id="tab" value="#{controleVisitaTecnica.recuperarTodasVisitasAtivas()}" var="visitas" 
+                                 rowKey="#{visitas.id}" paginator="true"
+                                 rows="10" emptyMessage="Náo há visitas cadastrados.">
+
+                        <p:column headerText="Local"  sortBy="#{visitas.localVisita}" filterBy="#{visitas.localVisita}" width="33%">
+                            <h:outputText value="#{visitas.localVisita}"/>
+                        </p:column>
+
+                        <p:column headerText="Hora de Saída"  sortBy="#{visitas.horaSaida}" filterBy="#{visitas.horaSaida}" width="25%">
+                            <h:outputText value="#{visitas.horaSaida}"/>
+                        </p:column>
+
+                        <p:column headerText="Data de Saída"  sortBy="#{visitas.dataSaida}" filterBy="#{visitas.dataSaida}" width="33%">
+                            <h:outputText value="#{visitas.dataSaida}">
+                                <f:convertDateTime pattern="dd/MM/yyyy" locale="pt_BR" timeZone="GMT-3:00"/>
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column headerText="Hora de chegada"  sortBy="#{visitas.horaChegada}" filterBy="#{visitas.horaChegada}" width="25%">
+                            <h:outputText value="#{visitas.horaChegada}"/>
+                        </p:column>
+
+                        <p:column headerText="Data de chegada"  sortBy="#{visitas.dataChegada}" filterBy="#{visitas.dataChegada}" width="33%">
+                            <h:outputText value="#{visitas.dataChegada}">
+                                <f:convertDateTime pattern="dd/MM/yyyy" locale="pt_BR" timeZone="GMT-3:00"/>
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column headerText="Duração"  sortBy="#{visitas.duracao}" filterBy="#{visitas.duracao}" width="33%">
+                            <h:outputText value="#{visitas.duracao}"/>
+                        </p:column>
+                        
+                        <p:column headerText="Custo"  sortBy="#{visitas.custo}" filterBy="#{visitas.custo}" width="33%">
+                            <h:outputText value="#{visitas.custo}"/>
+                        </p:column>
+
+                        <p:column width="10%">
+                            <p:commandButton title="mostrar" update=":formVisualizarVisitas:dial" icon="ui-icon-search" oncomplete="dialogo.show()">
+                                <f:setPropertyActionListener value="#{visitas}" target="#{controleVisitaTecnica.selected}" />
+                            </p:commandButton>
+
+                            <p:commandButton title="alterar" update=":formVisualizarVisitas" icon="ui-icon-pencil" oncomplete="location.href='AlterarVisita.xhtml'">
+                                <f:setPropertyActionListener value="#{visitas}" target="#{controleVisitaTecnica.selected}" />
+                            </p:commandButton>
+
+                            <p:commandButton title="excluir" icon="ui-icon-trash" oncomplete="dialogo2.show()" update=":formVisualizarVisitas:dial2">
+                                <f:setPropertyActionListener value="#{visitas}" target="#{controleVisitaTecnica.selected}" />                                
+                            </p:commandButton>
+                        </p:column>
+
+                    </p:dataTable>
+
+                </p:panel>
+            </center>
+            <p:dialog id="dial" appendToBody="true" draggable="false" closable="true" resizable="false" modal="true" widgetVar="dialogo">
+
+                <center> 
+
+                    <p:panelGrid columns="2">
+
+                        <h:outputText value="Quantidade de estudantes: "/>
+                        <h:outputText value="#{controleVisitaTecnica.selected.quantEstudantes}"/>
+
+                        <h:outputText value="Objetivos: "/>
+                        <h:outputText value="#{controleVisitaTecnica.selected.objetivos}"/>
+
+                        <h:outputText value="Justificativa: "/>
+                        <h:outputText value="#{controleVisitaTecnica.selected.justificativa}"/>
+
+                        <h:outputText value="Público alvo: "/>
+                        <h:outputText value="#{controleVisitaTecnica.selected.publicoAlvo}"/>
+
+                        <h:outputText value="Componentes curriculares: "/>
+                        <h:outputText value="#{controleVisitaTecnica.selected.compCurriculares}"/>
+                    </p:panelGrid>
+
+                    <p:separator/>                    
+
+                </center>
+                <p:commandLink value="Mais" update=":formVisualizarVisitas:dial1" oncomplete="dialogo1.show();dialogo.hide()">
+                                <f:setPropertyActionListener value="#{controleVisitaTecnica.selected}" target="#{controleVisitaTecnica.selected}" />
+                </p:commandLink>
+
+            </p:dialog>
+            <p:dialog id="dial1" appendToBody="true" draggable="false" closable="true" resizable="false" modal="true" widgetVar="dialogo1">
+                <center>
+                    <p:panelGrid columns="2">
+                        
+                        <h:outputText value="Informações adicionais: "/>
+                        <h:outputText value="#{controleVisitaTecnica.selected.informacoes}"/>
+
+                        <h:outputText value="Requisitos: "/>
+                        <h:outputText value="#{controleVisitaTecnica.selected.requisitos}"/>
+
+                        <h:outputText value="Referências bibliográficas: "/>
+                        <h:outputText value="#{controleVisitaTecnica.selected.referencia}"/>
+
+                        <h:outputText value="Servidores: "/>
+                        <p:commandLink value="Mostrar" update=":formVisualizarVisitas:dial4" oncomplete="dialogo4.show()"/>
+
+                        <h:outputText value="Estudantes: "/>
+                        <p:commandLink value="Mostrar" update=":formVisualizarVisitas:dial5" oncomplete="dialogo5.show()"/>
+
+                        <p:commandLink value="Relatório da Visita"  
+                                       action="#{gerarRelatorioVisita.recuperarVisita(controleVisitaTecnica.selected, controleLogin.servidor)}"
+                                       ajax="false" update=":formVisualizarVisitas"/>
+
+                        <p:commandLink value="Relatório dos Estudantes"  
+                                       action="#{gerarRelatorioEstudantes.recuperarEstudantes(controleVisitaTecnica.selected, controleLogin.servidor)}"
+                                       ajax="false" update=":formVisualizarVisitas"/>
+                    </p:panelGrid>
+                </center>
+                    
+            </p:dialog>
+
+            <p:dialog id="dial2"  appendToBody="false" closable="false" resizable="false" modal="true" widgetVar="dialogo2">
+
+
+                <h:outputText value="Deseja realmente excluir a visita selecionada?"/> <br/>
+
+                <center>
+
+                    <p:commandButton value="Sim"  action="#{controleVisitaTecnica.desativar(controleVisitaTecnica.selected)}" update=":formVisualizarVisitas:tab" oncomplete="dialogo3.show();dialogo2.hide()"/>
+                    <p:commandButton value="Não"  oncomplete="dialogo2.hide()"/>
+
+                </center>
+
+            </p:dialog>
+
+
+            <p:dialog id="dial3" appendToBody="true" closable="false" resizable="false" modal="true" widgetVar="dialogo3">
+
+                <h:outputText value="Estudante excluido com sucesso!"/> <br/>
+
+                <center>
+
+                    <p:commandButton value="OK"  oncomplete="dialogo3.hide()"/>
+
+                </center>
+
+            </p:dialog>
+
+            <p:dialog id="dial4" appendToBody="true" closable="true" resizable="false" draggable="false" modal="true" widgetVar="dialogo4">
+
+                <p:dataTable id="tab2" value="#{controleVisitaTecnica.selected.servidores}" var="servidores" 
+                             rowKey="#{servidores.id}" emptyMessage="Sem servidores." >
+
+                    <p:column headerText="Servidores" sortBy="#{controleVisitaTecnica.selected.servidores}">
+                        <h:outputText value="#{servidores.nome}"/>
+                    </p:column>
+                    
+                </p:dataTable>
+
+            </p:dialog>
+
+            <p:dialog id="dial5" appendToBody="true" closable="true" resizable="false" draggable="false" modal="true" widgetVar="dialogo5">
+
+                <p:dataTable id="tab3" paginator="true" rows="8" value="#{controleVisitaTecnica.selected.estudantes}" var="estudantes" 
+                             rowKey="#{estudantes.id}" emptyMessage="Sem estudantes.">
+
+                    <p:column headerText="Estudantes" sortBy="#{controleVisitaTecnica.selected.estudantes}">
+                        <h:outputText value="#{estudantes.nome}"/>
+                    </p:column>
+
+                </p:dataTable>
+
+            </p:dialog>
+        </h:form>
+    </h:body>
+</html>
+
+
+

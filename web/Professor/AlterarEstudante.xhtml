@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <h:head>
+        <title>Alterar Estudante</title>
+    </h:head>
+    <h:body>
+        <ui:include src="/indexProfessor.xhtml"/>
+        <h:form id="formAlterarEstudante">
+            <c:if test="${controleLogin.loggedIn == false}">
+                <script>
+                        location.href = '/ControleVisitaTec/faces/login.xhtml';
+                </script>
+            </c:if>
+            <c:if test="${controleLogin.administrador == true}">
+                <script>
+                    location.href = '/ControleVisitaTec/faces/index.xhtml';
+                </script>
+            </c:if>
+            <center>
+
+                <p:panel header="Atualizar dados do Estudante">
+
+                    <h:panelGrid columns="2" styleClass="grid">                       
+
+                        <h:outputText value="*Nome: " style="color: red"/>
+                        <p:inputText id="nome" value="#{controleEstudante.selected.nome} "  required="true" requiredMessage="Digite o nome!"/>
+                        
+                        <h:outputText value="*CPF: " style="color: red"/>
+                        <p:inputMask mask="999.999.999-99" id="cpf" value="#{controleEstudante.selected.cpf}"  required="true" requiredMessage="Digite o cpf!"/>
+                        
+                        <h:outputText value="*Data de nascimento: " style="color: red"/>
+                        <p:inputMask mask="99/99/9999" value="#{controleEstudante.selected.dataNascimento}" size="9" converterMessage="Data inválida!"  required="true" requiredMessage="Digite a data de nascimento!" >
+                            <f:convertDateTime pattern="dd/MM/yyyy" locale="pt_BR" timeZone="GMT-3:00"/>
+                        </p:inputMask>
+                        
+                        <h:outputText value="Banco: "/>
+                        <p:selectOneMenu value="#{controleEstudante.selected.banco}" converter="converterEntity" filter="true" panelStyle="width:150px">  
+                            <f:selectItem itemLabel="Selecione" itemValue="" />  
+                            <f:selectItems value="#{controleBanco.recuperarTodosBancosAtivos()}" var="bancos" itemLabel="#{bancos.nome}" itemValue="#{bancos}"/>  
+                        </p:selectOneMenu>
+                        
+                        <h:outputText value="Número da conta: " />
+                        <p:inputText id="numeroConta" value="#{controleEstudante.selected.conta}" />
+                        
+                        <h:outputText value="Agência: " />
+                        <p:inputText id="agencia" value="#{controleEstudante.selected.agencia}" />
+                        
+                        <h:outputText value="Observação: " />
+                        <p:inputTextarea id="observacao" value="#{controleEstudante.selected.observacao}" />
+                        
+                    </h:panelGrid>
+
+                    <p:separator/>
+
+                    <p:commandButton value="Salvar"  action="#{controleEstudante.atualizarEstudante(controleEstudante.selected)}" ajax="false" update=":form"/>
+                    <p:commandButton update=":formAlterarEstudante" value="Cancelar"  oncomplete="location.href='/ControleVisitaTec/faces/Professor/VisualizarEstudantes.xhtml'" />
+                    
+                </p:panel>
+
+            </center>
+        </h:form>
+    </h:body>
+</html>
+

@@ -1,0 +1,123 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <h:head>
+        <title>Alterar Visita</title>
+        <style type="text/css">
+
+            .ui-picklist-list {
+                height:350px !important;
+                width:400px !important;
+            }
+
+        </style>
+    </h:head>
+    <h:body>
+        <ui:include src="/indexProfessor.xhtml"/>
+        <h:form id="formAlterarVisita">
+            <c:if test="${controleLogin.loggedIn == false}">
+                <script>
+                    location.href = '/ControleVisitaTec/faces/login.xhtml';
+                </script>
+            </c:if>
+            <c:if test="${controleLogin.administrador == true}">
+                <script>
+                    location.href = '/ControleVisitaTec/faces/index.xhtml';
+                </script>
+            </c:if>
+            
+            <center>
+                #{controleVisitaTecnica.inicializarPickList(controleVisitaTecnica.selected)}
+                <p:panel header="Alterar Visita Técnica">
+
+                    <p:panelGrid id="grid" columns="2" styleClass="grid">
+
+                        <p:outputLabel value="*Data de saída:" style="color: red"/>
+                        <p:inputMask mask="99/99/9999" value="#{controleVisitaTecnica.selected.dataSaida}" size="9" converterMessage="Data inválida!" required="true" requiredMessage="Digite a data!">
+                            <f:convertDateTime pattern="dd/MM/yyyy" locale="pt_BR" timeZone="GMT-3:00"/>
+                        </p:inputMask>
+
+                        <h:outputText value="*Hora de saída: " style="color: red"/>
+                        <p:inputMask mask="99:99" id="horaSaida" converterMessage="Hora inválida!" value="#{controleVisitaTecnica.selected.horaSaida}" required="true" requiredMessage="Digite a hora!"/>
+
+                        <p:outputLabel value="*Data de chegada:" style="color: red"/>
+                        <p:inputMask mask="99/99/9999" value="#{controleVisitaTecnica.selected.dataChegada}" size="9" converterMessage="Data inválida!" required="true" requiredMessage="Digite a data!">
+                            <f:convertDateTime pattern="dd/MM/yyyy" locale="pt_BR" timeZone="GMT-3:00"/>
+                        </p:inputMask>
+
+                        <h:outputText value="*Hora de chegada: " style="color: red"/>
+                        <p:inputMask mask="99:99" id="horaChegada" converterMessage="Data inválida!" value="#{controleVisitaTecnica.selected.horaChegada}" required="true" requiredMessage="Digite a hora!"/>
+
+                        <h:outputText value="*Local: " style="color: red"/>
+                        <p:inputText id="local" value="#{controleVisitaTecnica.selected.localVisita}" required="true" requiredMessage="Digite o local!"/>
+
+                        <h:outputText value="*Duração da visita: (Em horas)" style="color: red"/>
+                        <p:inputText id="duracao" value="#{controleVisitaTecnica.selected.duracao}" required="true" requiredMessage="Digite a duração!"/>
+
+                        <h:outputText value="*Custo da visita: " style="color: red"/>
+                        <p:inputText id="custo" value="#{controleVisitaTecnica.selected.custo}" required="true" requiredMessage="Digite o custo!"/>
+
+                        <h:outputText value="*Quantidade de estudantes: " style="color: red"/>
+                        <p:inputText id="quantEstudantes" value="#{controleVisitaTecnica.selected.quantEstudantes}" required="true" requiredMessage="Digite a quantidade!"/>
+
+                        <h:outputText value="Publico alvo: "/>
+                        <p:inputText style="width: 200%" id="publico" value="#{controleVisitaTecnica.selected.publicoAlvo}"/>
+
+                        <h:outputText value="Objetivos da visita: "/>
+                        <p:inputTextarea style="width: 200%" id="objetivos" value="#{controleVisitaTecnica.selected.objetivos}"/>
+
+                        <h:outputText value="Justificativa: "/>
+                        <p:inputTextarea style="width: 200%" id="justificativa" value="#{controleVisitaTecnica.selected.justificativa}"/>
+
+                        <h:outputText value="Componentes curriculares envolvidos: "/>
+                        <p:inputTextarea style="width: 200%" id="comp" value="#{controleVisitaTecnica.selected.compCurriculares}"/>
+
+                        <h:outputText value="Informações adicionais: "/>
+                        <p:inputTextarea style="width: 200%" id="informacoes" value="#{controleVisitaTecnica.selected.informacoes}"/>
+
+                        <h:outputText value="Requisitos: "/>
+                        <p:inputTextarea style="width: 200%" id="requisitos" value="#{controleVisitaTecnica.selected.requisitos}"/>
+
+                        <h:outputText value="Referências Bibliográficas: "/>
+                        <p:inputTextarea style="width: 200%" id="referencias" value="#{controleVisitaTecnica.selected.referencia}"/>
+
+                    </p:panelGrid> <br/>
+                    <center>
+                        <p:pickList id="pickListServidores" value="#{controleVisitaTecnica.servidores}" var="servidores" itemLabel="#{servidores.nome} #{servidores.siape}" 
+                                    converter="converterEntity" showCheckbox="true" removeAllLabel="Remover todos" filterMatchMode="contains"
+                                    addAllLabel="Adicionar todos" showSourceFilter="true" showTargetFilter="true" itemValue="#{servidores}">
+                            <f:facet name="sourceCaption">Servidores disponíveis</f:facet>
+                            <f:facet name="targetCaption">Servidores selecionados</f:facet>
+
+                            <p:column filterBy="#{servidores.nome} #{servidores.siape}">
+                                <h:outputText value="#{servidores.nome} (#{servidores.siape})" />
+                            </p:column>
+                        </p:pickList>
+                        <br/>
+                        <p:pickList id="pickListEstudantes" value="#{controleVisitaTecnica.estudantes}" var="estudantes" itemLabel="#{estudantes.nome} #{estudantes.cpf}" 
+                                    converter="converterEntity" showCheckbox="true" removeAllLabel="Remover todos" filterMatchMode="contains"
+                                    addAllLabel="Adicionar todos" showSourceFilter="true" showTargetFilter="true" itemValue="#{estudantes}">
+                            <f:facet name="sourceCaption">Estudantes disponíveis</f:facet>
+                            <f:facet name="targetCaption">Estudantes selecionados</f:facet>
+
+                            <p:column filterBy="#{estudantes.nome} #{estudantes.cpf}" >
+                                <h:outputText value="#{estudantes.nome} (#{estudantes.cpf})" />
+                            </p:column>
+                        </p:pickList>
+
+                    </center>
+                    <p:separator/>
+                    <p:commandButton value="Salvar" action="#{controleVisitaTecnica.atualizarVisitaTecnica(controleVisitaTecnica.selected)}" ajax="false" update=":formAlterarVisita"/>
+                    <p:commandButton update=":formAlterarVisita" value="Cancelar"  oncomplete="location.href='/ControleVisitaTec/faces/Professor/VisualizarVisitas.xhtml'" />
+
+                </p:panel>
+            </center>
+        </h:form>
+    </h:body>
+</html>
+

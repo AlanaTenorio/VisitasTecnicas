@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <h:head>
+        <title>Cadastrar Banco</title>
+    </h:head>
+    <h:body>
+        
+        <ui:include src="/index.xhtml"/>
+        <h:form id="formCadastroBanco">
+            <c:if test="${controleLogin.loggedIn == false}">
+                <script>
+                        location.href = '/ControleVisitaTec/faces/login.xhtml';
+                </script>
+            </c:if>
+            <c:if test="${controleLogin.professor == true}">
+                <script>
+                    location.href = '/ControleVisitaTec/faces/indexProfessor.xhtml';
+                </script>
+            </c:if>
+            <center> 
+                
+                <p:panel header="Cadastrar Banco">
+                    
+                    <p:panelGrid columns="2" styleClass="grid">
+
+                        <h:outputText value="*Número: " style="color: red"/>
+                        <p:inputText id="numero" value="#{banco.numero}" required="true" requiredMessage="Digite o número!"/>
+                        
+                        <h:outputText value="*Nome: " style="color: red"/>
+                        <p:inputText id="nome" value="#{banco.nome}" required="true" requiredMessage="Digite o nome"/>
+
+                    </p:panelGrid>
+
+                    <p:separator/>
+
+                    <p:commandButton value="Cadastrar"  action="#{controleBanco.inserirBanco(banco)}" ajax="false" update=":formCadastroBanco"/>
+                
+                </p:panel>
+            
+            </center>
+        </h:form>
+    </h:body>
+</html>
+

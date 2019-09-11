@@ -1,0 +1,369 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="relatorioVisitaTecnica" language="groovy" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="e0a5fc93-9e4d-4bb2-8467-45f14791e93d">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="378"/>
+	<property name="ireport.callouts" value="##Wed Jul 23 03:27:00 BRT 2014"/>
+	<subDataset name="dataset1" uuid="f1491afc-0474-44d8-95d7-624e89530078"/>
+	<field name="visita.localVisita" class="java.lang.String"/>
+	<field name="visita.duracao" class="java.lang.Integer"/>
+	<field name="visita.custo" class="java.lang.Double"/>
+	<field name="visita.quantEstudantes" class="java.lang.Integer"/>
+	<field name="visita.horaSaida" class="java.lang.String"/>
+	<field name="visita.horaChegada" class="java.lang.String"/>
+	<field name="visita.dataSaida" class="java.util.Date"/>
+	<field name="visita.dataChegada" class="java.util.Date"/>
+	<field name="visita.objetivos" class="java.lang.String"/>
+	<field name="visita.justificativa" class="java.lang.String"/>
+	<field name="visita.publicoAlvo" class="java.lang.String"/>
+	<field name="visita.compCurriculares" class="java.lang.String"/>
+	<field name="visita.informacoes" class="java.lang.String"/>
+	<field name="visita.requisitos" class="java.lang.String"/>
+	<field name="visita.referencia" class="java.lang.String"/>
+	<field name="servidores" class="java.lang.String"/>
+	<field name="servidor.nome" class="java.lang.String"/>
+	<field name="servidor.siape" class="java.lang.String"/>
+	<group name="Group1">
+		<groupHeader>
+			<band/>
+			<band height="36">
+				<staticText>
+					<reportElement mode="Opaque" x="0" y="0" width="100" height="32" forecolor="#000000" backcolor="#FFFFFF" uuid="84a4afa9-c5a0-4ce6-8f02-d4d138f21c50"/>
+					<textElement>
+						<font size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Servidores participantes]]></text>
+				</staticText>
+				<textField>
+					<reportElement mode="Opaque" x="100" y="4" width="455" height="32" forecolor="#000000" backcolor="#FFFFFF" uuid="6a14410c-0fe5-4bdc-9832-340f903b2241"/>
+					<textElement>
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{servidores}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band/>
+		</groupFooter>
+	</group>
+	<group name="Group2">
+		<groupHeader>
+			<band height="32">
+				<textField>
+					<reportElement x="100" y="0" width="455" height="32" forecolor="#000000" uuid="b112433c-a195-4a61-a1fe-7a6a85f0ad86"/>
+					<textElement>
+						<font size="14" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{visita.localVisita}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="0" y="0" width="100" height="20" forecolor="#000000" uuid="f3a0d45a-e079-4ae5-9732-4780eadef370"/>
+					<textElement>
+						<font size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Local]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band/>
+		</groupFooter>
+	</group>
+	<group name="Group3">
+		<groupHeader>
+			<band height="32">
+				<textField>
+					<reportElement x="100" y="0" width="220" height="32" forecolor="#000000" uuid="fdb35bfc-cbb3-4eec-b5db-594b5a32053b"/>
+					<textElement>
+						<font size="14" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[DateFormat.getDateInstance().format($F{visita.dataSaida})]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="0" y="0" width="100" height="20" forecolor="#000000" uuid="a94dcdfa-18a2-4afb-84cf-0aa32cdedc4d"/>
+					<textElement>
+						<font size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Data de saída]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="402" y="0" width="135" height="32" forecolor="#000000" uuid="b7bac6c9-3667-4390-b1ba-fbf1c4607bbb"/>
+					<textElement>
+						<font size="14" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{visita.horaSaida}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="350" y="0" width="52" height="32" uuid="0d79567d-81aa-4ad6-b641-94987269e2fc"/>
+					<textElement>
+						<font size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Hora: ]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band/>
+		</groupFooter>
+	</group>
+	<group name="Group4">
+		<groupHeader>
+			<band/>
+			<band height="35">
+				<staticText>
+					<reportElement x="0" y="0" width="100" height="20" forecolor="#000000" uuid="67b0c1a1-b868-4821-a647-b57a9f790a5c"/>
+					<textElement>
+						<font size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Data de chegada]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="100" y="0" width="220" height="35" forecolor="#000000" uuid="fdf24160-3566-4299-88e9-f07033d904e7"/>
+					<textElement>
+						<font size="14" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[DateFormat.getDateInstance().format($F{visita.dataChegada})]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="402" y="0" width="135" height="35" forecolor="#000000" uuid="5b6e3d0a-b004-48ec-804d-1bc6da9d1e9b"/>
+					<textElement>
+						<font size="14" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{visita.horaChegada}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="350" y="0" width="52" height="35" uuid="4c553531-8511-44c4-afe8-d1016fc41af8"/>
+					<textElement>
+						<font size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Hora:]]></text>
+				</staticText>
+			</band>
+			<band/>
+			<band height="37">
+				<staticText>
+					<reportElement x="0" y="0" width="100" height="20" forecolor="#000000" uuid="80cdf790-2430-4e67-98f7-13c919ed0245"/>
+					<textElement>
+						<font size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Duração da visita]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="100" y="1" width="455" height="36" forecolor="#000000" uuid="71aa8ac0-16f6-49fe-ac9c-2a3aea61f252"/>
+					<textElement>
+						<font size="14" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{visita.duracao}]]></textFieldExpression>
+				</textField>
+			</band>
+			<band height="39">
+				<staticText>
+					<reportElement x="0" y="0" width="100" height="20" forecolor="#000000" uuid="be31b36c-170a-4ff8-8405-7781c61d6397"/>
+					<textElement>
+						<font size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Custo da visita]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="100" y="1" width="455" height="38" forecolor="#000000" uuid="c699672e-feaf-4ff9-a82f-7738e9a237a5"/>
+					<textElement>
+						<font size="14" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{visita.custo}]]></textFieldExpression>
+				</textField>
+			</band>
+			<band height="43">
+				<staticText>
+					<reportElement x="0" y="0" width="100" height="32" forecolor="#000000" uuid="0fa8e246-7b82-4ff2-a97d-c1e87c54013b"/>
+					<textElement>
+						<font size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Quantidade de estudantes]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="100" y="0" width="455" height="43" forecolor="#000000" uuid="616422ea-7638-4424-9c6c-f14845eaaedf"/>
+					<textElement>
+						<font size="14" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{visita.quantEstudantes}]]></textFieldExpression>
+				</textField>
+			</band>
+			<band height="63">
+				<textField isStretchWithOverflow="true">
+					<reportElement x="73" y="0" width="482" height="63" forecolor="#000000" uuid="a13646cd-5f96-45da-8b19-0216ec585202"/>
+					<textElement>
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{visita.objetivos}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="0" y="0" width="73" height="32" forecolor="#000000" uuid="e01205f6-f73c-4def-9a5d-e5483218bd8c"/>
+					<textElement>
+						<font size="14" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Objetivos]]></text>
+				</staticText>
+			</band>
+			<band height="59">
+				<staticText>
+					<reportElement x="0" y="0" width="100" height="20" forecolor="#000000" uuid="4fd4c568-5eed-4b20-a115-eac441f81f91"/>
+					<textElement>
+						<font size="14" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Justificativa]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true">
+					<reportElement x="100" y="0" width="455" height="59" forecolor="#000000" uuid="7c8d7a60-8b6f-4904-9319-1ea825e90e5b"/>
+					<textElement>
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{visita.justificativa}]]></textFieldExpression>
+				</textField>
+			</band>
+			<band height="43">
+				<staticText>
+					<reportElement x="0" y="0" width="100" height="19" forecolor="#000000" uuid="c7532d4b-d7d4-4daa-8d98-80d19f11dc03"/>
+					<textElement>
+						<font size="14" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Público alvo]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true">
+					<reportElement x="100" y="0" width="455" height="43" forecolor="#000000" uuid="3abb338c-fbe3-4c29-b320-c15767026c39"/>
+					<textElement>
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{visita.publicoAlvo}]]></textFieldExpression>
+				</textField>
+			</band>
+			<band height="55">
+				<textField isStretchWithOverflow="true">
+					<reportElement x="73" y="0" width="482" height="55" forecolor="#000000" uuid="bba845ca-1425-456d-af29-77b4c19a8e37"/>
+					<textElement>
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{visita.requisitos}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="0" y="0" width="73" height="19" forecolor="#000000" uuid="adf7544e-a49f-402d-bd62-c7ae725987cf"/>
+					<textElement>
+						<font size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Requisitos]]></text>
+				</staticText>
+			</band>
+			<band height="69">
+				<staticText>
+					<reportElement x="0" y="0" width="168" height="20" forecolor="#000000" uuid="8dda84dd-bd26-49d4-b684-aeb66ae17ea0"/>
+					<textElement>
+						<font size="14" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Informações adicionais]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true">
+					<reportElement x="168" y="0" width="387" height="68" forecolor="#000000" uuid="1a4658a2-8962-4c93-9574-d11ff4269d23"/>
+					<textElement>
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{visita.informacoes}]]></textFieldExpression>
+				</textField>
+			</band>
+			<band height="62">
+				<textField isStretchWithOverflow="true">
+					<reportElement x="168" y="0" width="387" height="62" forecolor="#000000" uuid="b398ef44-720a-4ade-a2bf-6503f9194f66"/>
+					<textElement>
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{visita.compCurriculares}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="0" y="0" width="168" height="34" forecolor="#000000" uuid="fd767ac3-ecaf-47c5-8566-8a1c1a9273e8"/>
+					<textElement>
+						<font size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Componentes curriculares envolvidos]]></text>
+				</staticText>
+			</band>
+			<band height="59">
+				<staticText>
+					<reportElement x="0" y="0" width="197" height="23" forecolor="#000000" uuid="6fdc312b-ffcd-4b1e-9667-e2f83b17f8e2"/>
+					<textElement>
+						<font size="14" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Referências bibliográficas]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true">
+					<reportElement x="197" y="0" width="361" height="59" forecolor="#000000" uuid="2ce053a4-2c9d-436e-968c-a7873f6c60e9"/>
+					<textElement>
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{visita.referencia}]]></textFieldExpression>
+				</textField>
+			</band>
+			<band height="140">
+				<staticText>
+					<reportElement x="0" y="30" width="100" height="20" uuid="35f61863-6cb1-48db-af84-657e7418feb4"/>
+					<text><![CDATA[Data de emissão:]]></text>
+				</staticText>
+				<textField pattern="dd/MM/yyyy">
+					<reportElement x="100" y="30" width="100" height="20" uuid="0f888abf-f442-480a-acf1-47a588893de3"/>
+					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement x="0" y="80" width="239" height="1" uuid="e046ebae-1469-4751-a36b-595e065cc722"/>
+				</line>
+				<textField>
+					<reportElement x="0" y="92" width="239" height="20" uuid="c8732981-451a-4546-abf1-1c4e3347efc1"/>
+					<textFieldExpression><![CDATA[$F{servidor.nome}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="0" y="112" width="38" height="20" uuid="3279d6ab-05c7-4374-af10-37318a0e3162"/>
+					<text><![CDATA[SIAPE: ]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="38" y="112" width="179" height="20" uuid="9af48f4d-9d12-4ac6-b181-97fbb8960341"/>
+					<textFieldExpression><![CDATA[$F{servidor.siape}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band/>
+		</groupFooter>
+	</group>
+	<background>
+		<band/>
+	</background>
+	<title>
+		<band height="68">
+			<frame>
+				<reportElement mode="Opaque" x="-20" y="-20" width="595" height="85" backcolor="#FFFFFF" uuid="bd4208af-126d-4e59-a29f-1cb1d23de46f"/>
+				<staticText>
+					<reportElement x="138" y="20" width="303" height="43" forecolor="#000000" uuid="b7184f23-6d22-4777-b2bb-aee4763e5650"/>
+					<textElement verticalAlignment="Middle">
+						<font size="24" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Projeto de visita Técnica]]></text>
+				</staticText>
+				<rectangle>
+					<reportElement x="0" y="63" width="595" height="20" forecolor="#006600" backcolor="#006600" uuid="c2a0a9e7-8ca0-462e-97b2-6c90a8c4a2b7"/>
+				</rectangle>
+			</frame>
+		</band>
+	</title>
+	<pageHeader>
+		<band/>
+	</pageHeader>
+	<columnHeader>
+		<band/>
+	</columnHeader>
+	<columnFooter>
+		<band/>
+	</columnFooter>
+	<pageFooter>
+		<band/>
+	</pageFooter>
+	<summary>
+		<band/>
+	</summary>
+</jasperReport>

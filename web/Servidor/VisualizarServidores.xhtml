@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <h:head>
+        <title>Visualizar Servidores</title>
+    </h:head>
+    <h:body>
+        <ui:include src="/index.xhtml"/>
+        <h:form id="formVisualizarServidores">
+            <c:if test="${controleLogin.loggedIn == false}">
+                <script>
+                    location.href = '/ControleVisitaTec/faces/login.xhtml';
+                </script>
+            </c:if>
+            <c:if test="${controleLogin.professor == true}">
+                <script>
+                    location.href = '/ControleVisitaTec/faces/indexProfessor.xhtml';
+                </script>
+            </c:if>
+            <center>
+
+                <p:panel header="Visualizar Servidores">
+
+                    <p:dataTable id="tab" value="#{controleServidor.recuperarTodosServidoresAtivos()}" var="servidores" 
+                                 rowKey="#{servidores.siape}" paginator="true"
+                                 rows="10" emptyMessage="Náo há servidores cadastrados.">
+
+                        <p:column headerText="SIAPE" sortBy="#{servidores.siape}" filterBy="#{servidores.siape}" width="20%" >
+                            <h:outputText value="#{servidores.siape}"/>
+                        </p:column>
+
+                        <p:column headerText="Nome" sortBy="#{servidores.nome}" filterBy="#{servidores.nome}" width="45%" >
+                            <h:outputText value="#{servidores.nome}"/>
+                        </p:column>
+
+                        <p:column headerText="Perfil" sortBy="#{servidores.perfil}" filterBy="#{servidores.perfil}" width="45%" >
+                            <h:outputText value="#{servidores.perfil}"/>
+                        </p:column>
+
+                        <p:column width="10%">
+                            <p:commandButton title="mostrar" update=":formVisualizarServidores:dial" icon="ui-icon-search" oncomplete="dialogo.show()">
+                                <f:setPropertyActionListener value="#{servidores}" target="#{controleServidor.selected}" />
+                            </p:commandButton>
+
+                            <p:commandButton title="alterar" update=":formVisualizarServidores" icon="ui-icon-pencil" oncomplete="location.href='AlterarServidor.xhtml'">
+                                <f:setPropertyActionListener value="#{servidores}" target="#{controleServidor.selected}" />
+                            </p:commandButton>
+
+                            <p:commandButton title="excluir"  icon="ui-icon-trash" oncomplete="dialogo2.show()" update=":formVisualizarServidores:dial2">
+                                <f:setPropertyActionListener value="#{servidores}" target="#{controleServidor.selected}" />                                
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+
+                </p:panel>
+
+            </center>
+            <p:dialog id="dial" appendToBody="true" draggable="false" closable="true" resizable="false" modal="true" widgetVar="dialogo">
+
+                <center> 
+
+                    <p:panelGrid columns="2">
+
+                        <h:outputText value="Nome: "/>
+                        <h:outputText value="#{controleServidor.selected.nome}"/>
+
+                        <h:outputText value="Siape: "/>
+                        <h:outputText value="#{controleServidor.selected.siape}"/>
+
+                    </p:panelGrid>
+
+                    <p:separator/>                    
+
+                </center>
+
+            </p:dialog>
+
+            <p:dialog id="dial2" appendToBody="false" closable="false" resizable="false" modal="true" widgetVar="dialogo2">
+
+                <h:outputText value="Deseja realmente excluir o servidor selecionado?"/> <br/>
+
+                <center>
+
+                    <p:commandButton value="Sim"  action="#{controleServidor.desativar(controleServidor.selected)}" update=":formVisualizarServidores:tab" oncomplete="dialogo3.show();dialogo2.hide()"/>
+                    <p:commandButton value="Não"  oncomplete="dialogo2.hide()"/>
+
+                </center>
+
+            </p:dialog>
+
+
+            <p:dialog id="dial3" appendToBody="true" closable="false" resizable="false" modal="true" widgetVar="dialogo3">
+
+                <h:outputText value="Servidor excluido com sucesso!"/> <br/>
+
+                <center>
+
+                    <p:commandButton value="OK"  oncomplete="dialogo3.hide()"/>
+
+                </center>
+
+            </p:dialog>
+        </h:form>
+    </h:body>
+</html>
+

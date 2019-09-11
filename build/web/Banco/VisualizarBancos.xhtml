@@ -1,0 +1,109 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <h:head>
+        <title>Visualizar Bancos</title>
+    </h:head>
+    <h:body>
+
+        <ui:include src="/index.xhtml"/>
+        <h:form id="formVisualizarBancos">
+            <c:if test="${controleLogin.loggedIn == false}">
+                <script>
+                    location.href = '/ControleVisitaTec/faces/login.xhtml';
+                </script>
+            </c:if>
+            <c:if test="${controleLogin.professor == true}">
+                <script>
+                    location.href = '/ControleVisitaTec/faces/indexProfessor.xhtml';
+                </script>
+            </c:if>
+            <center>
+
+                <p:panel header="Visualizar Bancos">
+
+                    <p:dataTable id="tab" value="#{controleBanco.recuperarTodosBancosAtivos()}" var="bancos" 
+                                 rowKey="#{bancos.numero}" paginator="true"
+                                 rows="10" emptyMessage="Náo há bancos cadastrados." >
+
+                        <p:column headerText="Número"  sortBy="#{bancos.numero}" filterBy="#{bancos.numero}" width="45%" >
+                            <h:outputText value="#{bancos.numero}"/>
+                        </p:column>
+                            <p:column headerText="Nome"  sortBy="#{bancos.nome}" filterBy="#{bancos.nome}" width="45%">
+                                <h:outputText value="#{bancos.nome}"/>
+                            </p:column>
+
+                            <p:column width="10%">
+                                <p:commandButton title="mostrar" update=":formVisualizarBancos:dial" icon="ui-icon-search" oncomplete="dialogo.show()">
+                                    <f:setPropertyActionListener value="#{bancos}" target="#{controleBanco.selected}" />
+                                </p:commandButton>
+
+                                <p:commandButton title="alterar" update=":formVisualizarBancos" icon="ui-icon-pencil" oncomplete="location.href='AlterarBanco.xhtml'">
+                                    <f:setPropertyActionListener value="#{bancos}" target="#{controleBanco.selected}" />
+                                </p:commandButton>
+
+                                <p:commandButton title="excluir"  update=":formVisualizarBancos:dial1" icon="ui-icon-trash" oncomplete="dialogo1.show()">
+                                    <f:setPropertyActionListener value="#{bancos}" target="#{controleBanco.selected}" />
+                                </p:commandButton>
+                            </p:column>
+                    </p:dataTable>
+
+                </p:panel>
+
+            </center>
+
+            <p:dialog id="dial" appendToBody="true" draggable="false" closable="true" resizable="false" modal="true" widgetVar="dialogo">
+
+                <center> 
+
+                    <p:panelGrid columns="2">
+
+                        <h:outputText value="Nome: "/>
+                        <h:outputText value="#{controleBanco.selected.nome}"/>
+
+                        <h:outputText value="Número: "/>
+                        <h:outputText value="#{controleBanco.selected.numero}"/>
+
+                    </p:panelGrid>
+
+                    <p:separator/>                    
+
+                </center>
+
+            </p:dialog>
+            
+            <p:dialog id="dial1" appendToBody="false" closable="false" resizable="false" modal="true" widgetVar="dialogo1">
+
+                <h:outputText value="Deseja realmente excluir o banco selecionado?"/> <br/>
+
+                <center>
+
+                    <p:commandButton value="Ok" action="#{controleBanco.desativar(controleBanco.selected)}" update=":formVisualizarBancos:tab" oncomplete="dialogo2.show();dialogo1.hide()"/>
+                    <p:commandButton value="Cancelar" oncomplete="dialogo1.hide()"/>
+
+                </center>
+
+            </p:dialog>
+
+
+            <p:dialog id="dial2" appendToBody="true" closable="false" resizable="false" modal="true" widgetVar="dialogo2">
+
+                <h:outputText value="Banco excluido com sucesso!"/> <br/>
+
+                <center>
+
+                    <p:commandButton value="OK" oncomplete="dialogo2.hide()"/>
+
+                </center>
+
+            </p:dialog>
+
+        </h:form>
+    </h:body>
+</html>
+
